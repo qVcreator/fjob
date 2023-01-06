@@ -1,11 +1,13 @@
-from sqlalchemy import \
-    (Column,
-     Integer,
-     String,
-     Boolean,
-     DateTime,
-     ForeignKey,
-     DECIMAL, CheckConstraint)
+from sqlalchemy import (
+    Column,
+    Integer,
+    String,
+    Boolean,
+    DateTime,
+    ForeignKey,
+    DECIMAL,
+    CheckConstraint
+)
 from sqlalchemy.orm import declarative_base, relationship
 from sqlalchemy.sql import functions
 
@@ -74,4 +76,3 @@ class Comments(Base):
 
     user_from = relationship("BaseUser", backref='comments')
     user_to = relationship("BaseUser", backref='comments')
-    
