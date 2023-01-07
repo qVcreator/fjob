@@ -69,10 +69,10 @@ class Suggestions(Base):
 class Comments(Base):
     __tablename__ = 'comments'
     id = Column(Integer, primary_key=True)
-    user_from_id = (Integer, ForeignKey('base-user.id'))
-    user_to_id = (Integer, ForeignKey('base-user.id'))
+    user_from_id = Column(Integer, ForeignKey('base-user.id'))
+    user_to_id = Column(Integer, ForeignKey('base-user.id'))
     rating = Column(Integer, CheckConstraint("rating>0 and rating<=5"), nullable=False)
     text = Column(String, nullable=False)
 
-    user_from = relationship("BaseUser", backref='comments')
-    user_to = relationship("BaseUser", backref='comments')
+    user_from = relationship("BaseUser", foreign_keys=[user_from_id])
+    user_to = relationship("BaseUser", foreign_keys=[user_to_id])

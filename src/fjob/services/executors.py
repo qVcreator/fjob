@@ -30,7 +30,18 @@ class ExecutorsService:
 
     def create_executor(self,
                         executor_data: models.CreateUser) -> models.Token:
-        executor = tables.BaseUser(
+
+        executor_check = (
+            self.session
+            .query(tables.Executors)
+            .filter_by(email=executor_data.email)
+            .first()
+        )
+
+        if executor_check:
+            raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail='User with this email already exist')
+
+        executor = tables.Executors(
             email=executor_data.email,
             first_name=executor_data.first_name,
             second_name=executor_data.second_name,
