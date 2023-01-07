@@ -1,5 +1,5 @@
 from datetime import datetime
-from typing import List
+from typing import List, Optional
 
 from pydantic import BaseModel
 
@@ -52,4 +52,7 @@ class ExecutorFullInfo(BaseModel):
     second_name: str
     email: str
     date_create: datetime
-    comments: List[Comments]
+    comments: Optional[List[Comments]]
+
+    class Config:
+        orm_mode = True
