@@ -39,6 +39,11 @@ class UpdateExecutor(BaseModel):
     second_name: str
 
 
+class UpdateUser(BaseModel):
+    first_name: str
+    second_name: str
+
+
 class Comments(BaseModel):
     rating: int
     text: str
@@ -53,6 +58,16 @@ class ExecutorFullInfo(BaseModel):
     email: str
     date_create: datetime
     comments: Optional[List[Comments]]
+
+    class Config:
+        orm_mode = True
+
+
+class UserAllInfo(BaseModel):
+    first_name: str
+    second_name: str
+    email: str
+    date_create: datetime
 
     class Config:
         orm_mode = True

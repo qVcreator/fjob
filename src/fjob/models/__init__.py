@@ -8,5 +8,7 @@ from .users import (
     AuthUser,
     UpdateExecutor,
     ExecutorFullInfo,
-    Comments
+    Comments,
+    UpdateUser,
+    UserAllInfo
 )
