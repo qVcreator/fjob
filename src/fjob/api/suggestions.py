@@ -10,9 +10,18 @@ router = APIRouter(
 )
 
 
-@router.post('/{suggestion_id}')
-def suggestion_reply():
-    return []
+@router.put(
+    '/{suggestion_id}',
+    status_code=status.HTTP_200_OK
+)
+def suggestion_reply(
+        suggestion_id: int,
+        current_user: models.AuthUser = Depends(role.RoleChecker([
+            models.Role.EXECUTOR
+        ])),
+        suggestions_service: SuggestionsService = Depends()
+):
+    suggestions_service.suggestion_reply(current_user.id, suggestion_id)
 
 
 @router.post(
