@@ -16,5 +16,6 @@ from .users import (
 from .suggestions import (
     SuggestionCreate,
     Category,
-    Status
+    Status,
+    SuggestionUpdate
 )

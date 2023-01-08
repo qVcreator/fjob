@@ -1,4 +1,4 @@
-from fastapi import Depends
+from fastapi import Depends, HTTPException, status
 from sqlalchemy.orm import Session
 
 from fjob.database import get_session
@@ -20,4 +20,39 @@ class SuggestionsService:
 
         return suggestion.id
 
-    def
+    def update_suggestion(self,
+                          suggestion_id: int,
+                          current_user_id: int,
+                          suggestion_data: models.SuggestionUpdate):
+        suggestion = (
+            self.session
+            .query(tables.Suggestions)
+            .filter_by(id=suggestion_id)
+            .first()
+        )
+
+        if suggestion.user_id != current_user_id:
+            raise HTTPException(status_code=status.HTTP_403_FORBIDDEN)
+
+        for field, value in suggestion_data:
+            setattr(suggestion, field, value)
+
+        self.session.commit()
+
+    def suggestion_reply(self,
+                         executor_id: int,
+                         suggestion_id: int):
+        suggestion = (
+            self.session
+            .query(tables.Suggestions)
+            .filter_by(id=suggestion_id)
+            .first()
+        )
+
+        if suggestion.status != models.Status.CREATED:
+            raise HTTPException(status_code=status.HTTP_409_CONFLICT)
+
+        suggestion.executor_id = executor_id
+        suggestion.status = models.Status.IN_PROGRESS
+
+        self.session.commit()

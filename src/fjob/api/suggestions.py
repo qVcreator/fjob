@@ -20,23 +20,29 @@ def suggestion_reply():
     response_model=int,
     status_code=status.HTTP_201_CREATED
 )
-def create_suggestion(suggestion_data: models.SuggestionCreate,
-                      current_user: models.AuthUser = Depends(role.RoleChecker([
-                          models.Role.USER
-                      ])),
-                      suggestions_service: SuggestionsService = Depends()
-                      ):
+def create_suggestion(
+        suggestion_data: models.SuggestionCreate,
+        current_user: models.AuthUser = Depends(role.RoleChecker([
+            models.Role.USER
+        ])),
+        suggestions_service: SuggestionsService = Depends()
+):
     suggestions_service.create_suggestion(suggestion_data)
 
 
-@router.put('/{suggestion_id}')
-def update_suggestion():
-    return []
-
-
-@router.patch('/{suggestion_id}')
-def update_suggestion_status():
-    return []
+@router.put(
+    '/{suggestion_id}',
+    status_code=status.HTTP_200_OK
+)
+def update_suggestion(
+        suggestion_id: int,
+        suggestion_data: models.SuggestionUpdate,
+        current_user: models.AuthUser = Depends(role.RoleChecker([
+            models.Role.USER
+        ])),
+        suggestions_service: SuggestionsService = Depends()
+):
+    suggestions_service.update_suggestion(suggestion_id, current_user.id, suggestion_data)
 
 
 @router.delete('/suggestion_delete')

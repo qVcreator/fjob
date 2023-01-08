@@ -26,3 +26,10 @@ class SuggestionCreate(BaseModel):
     description: str
     price: decimal
     category: Category
+
+
+class SuggestionUpdate(BaseModel):
+    name = str
+    description: str
+    price: decimal
+    category: Category
