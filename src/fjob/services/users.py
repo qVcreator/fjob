@@ -32,7 +32,7 @@ class UsersService:
                     user_data: models.CreateUser) -> models.Token:
         user_check = (
             self.session
-            .query(tables.BasicUser)
+            .query(tables.BaseUser)
             .filter_by(email=user_data.email)
             .first()
         )

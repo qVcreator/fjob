@@ -1,4 +1,8 @@
-from fastapi import APIRouter
+from fastapi import APIRouter, Depends, status
+
+from .. import models
+from ..services import role
+from ..services.suggestions import SuggestionsService
 
 router = APIRouter(
     prefix="/suggestions",
@@ -11,9 +15,18 @@ def suggestion_reply():
     return []
 
 
-@router.post('/', response_model=int)
-def create_suggestion():
-    return 1
+@router.post(
+    '/',
+    response_model=int,
+    status_code=status.HTTP_201_CREATED
+)
+def create_suggestion(suggestion_data: models.SuggestionCreate,
+                      current_user: models.AuthUser = Depends(role.RoleChecker([
+                          models.Role.USER
+                      ])),
+                      suggestions_service: SuggestionsService = Depends()
+                      ):
+    suggestions_service.create_suggestion(suggestion_data)
 
 
 @router.put('/{suggestion_id}')

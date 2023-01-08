@@ -33,7 +33,7 @@ class ExecutorsService:
 
         executor_check = (
             self.session
-            .query(tables.Executors)
+            .query(tables.BaseUser)
             .filter_by(email=executor_data.email)
             .first()
         )

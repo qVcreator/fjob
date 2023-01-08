@@ -12,3 +12,9 @@ from .users import (
     UpdateUser,
     UserAllInfo
 )
+
+from .suggestions import (
+    SuggestionCreate,
+    Category,
+    Status
+)

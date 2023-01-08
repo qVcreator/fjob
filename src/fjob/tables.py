@@ -54,11 +54,13 @@ class Executors(BaseUser):
 class Suggestions(Base):
     __tablename__ = 'suggestions'
     id = Column(Integer, primary_key=True)
-    user_id = Column(Integer, ForeignKey("users.id"))
-    executor_id = Column(Integer, ForeignKey("executors.id"))
+    user_id = Column(Integer, ForeignKey("users.id"), nullable=False)
+    executor_id = Column(Integer, ForeignKey("executors.id"), nullable=True)
     name = Column(String(50), nullable=False)
     description = Column(String(255), nullable=False)
     price = Column(DECIMAL, nullable=False)
+    # date_create = Column(DateTime(timezone=True), server_default=functions.now())
+    # date_update = Column(DateTime(timezone=True), onupdate=functions.now())
     category = Column(String)
     status = Column(String, nullable=False)
 

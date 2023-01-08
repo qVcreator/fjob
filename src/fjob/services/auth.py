@@ -63,6 +63,7 @@ class AuthService:
             'nbf': now,
             'exp': now + datetime.timedelta(seconds=settings.JWT_EXPIRES_S),
             'sub': str(user_data.id),
+            'user': user_data.dict(),
         }
         token = jwt.encode(
             payload,
