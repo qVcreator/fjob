@@ -6,7 +6,8 @@ from sqlalchemy import (
     DateTime,
     ForeignKey,
     DECIMAL,
-    CheckConstraint
+    CheckConstraint,
+    BOOLEAN
 )
 from sqlalchemy.orm import declarative_base, relationship
 from sqlalchemy.sql import functions
@@ -75,6 +76,9 @@ class Comments(Base):
     user_to_id = Column(Integer, ForeignKey('base-user.id'))
     rating = Column(Integer, CheckConstraint("rating>0 and rating<=5"), nullable=False)
     text = Column(String, nullable=False)
+    # date_create = Column(DateTime(timezone=True), server_default=functions.now())
+    # date_update = Column(DateTime(timezone=True), onupdate=functions.now())
+    is_deleted = Column(BOOLEAN)
 
     user_from = relationship("BaseUser", foreign_keys=[user_from_id])
     user_to = relationship("BaseUser", foreign_keys=[user_to_id])

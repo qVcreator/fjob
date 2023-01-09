@@ -19,3 +19,8 @@ from .suggestions import (
     Status,
     SuggestionUpdate
 )
+
+from .comments import (
+    CreateComment,
+    CommentOutput
+)

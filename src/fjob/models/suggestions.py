@@ -3,6 +3,8 @@ import decimal
 from pydantic import BaseModel
 from enum import Enum
 
+from .. import models
+
 
 class Status(str, Enum):
     CREATED = 1,
@@ -33,3 +35,13 @@ class SuggestionUpdate(BaseModel):
     description: str
     price: decimal
     category: Category
+
+
+class SuggestionOutput(BaseModel):
+    user_id: int
+    executor_id: int
+    name: str
+    description: str
+    price: decimal
+    category: str
+    status: models.Status
