@@ -41,7 +41,7 @@ def create_suggestion(
 
 @router.put(
     '/{suggestion_id}',
-    status_code=status.HTTP_200_OK
+    status_code=status.HTTP_204_NO_CONTENT
 )
 def update_suggestion(
         suggestion_id: int,
@@ -54,6 +54,15 @@ def update_suggestion(
     suggestions_service.update_suggestion(suggestion_id, current_user.id, suggestion_data)
 
 
-@router.delete('/suggestion_delete')
-def delete_suggestion():
-    return []
+@router.patch(
+    '/cancel_suggestion',
+    status_code=status.HTTP_204_NO_CONTENT
+)
+def cancel_suggestion(
+        suggestion_id: int,
+        current_user: models.AuthUser = Depends(role.RoleChecker([
+            models.Role.USER
+        ])),
+        suggestions_service: SuggestionsService = Depends()
+):
+    suggestions_service.cancel_suggestion(suggestion_id, current_user.id)

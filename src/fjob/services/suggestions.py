@@ -56,3 +56,25 @@ class SuggestionsService:
         suggestion.status = models.Status.IN_PROGRESS
 
         self.session.commit()
+
+    def cancel_suggestion(
+            self,
+            suggestion_id: int,
+            user_id: int
+    ):
+        suggestion = (
+            self.session
+            .query(tables.Suggestions)
+            .filter_by(id=suggestion_id)
+            .first()
+        )
+
+        if suggestion.user_id != user_id:
+            raise HTTPException(status_code=status.HTTP_403_FORBIDDEN)
+
+        if suggestion.status != models.Status.CREATED:
+            raise HTTPException(status_code=status.HTTP_409_CONFLICT)
+
+        suggestion.status = models.Status.CANCELLED
+
+        self.session.commit()
